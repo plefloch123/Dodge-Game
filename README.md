@@ -25,4 +25,11 @@ python Ball_G 1.3.py
 This will start the game, and you can begin your exciting adventure dodging obstacles !
 Now, you are all set to immerse yourself in the exciting world of **Noot-Noot**! Dodge obstacles, stay focused, and enjoy the game! 🚀🌟
 
+## Need Help? 🤔
+
+If you have any questions or need assistance, don't hesitate to reach out! Feel free to email me at: plefloch123@gmail.com 📧
+
+## Copyright ©️
+
+This game is open-source and licensed under the [Creative Commons Attribution-NonCommercial 4.0 International License](https://creativecommons.org/licenses/by-nc/4.0/). All rights reserved for non-commercial use only. Unauthorized distribution, reproduction, or modification of this game or any part of it for commercial purposes is strictly prohibited.
 
