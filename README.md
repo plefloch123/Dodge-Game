@@ -12,7 +12,15 @@ Follow these simple steps to start playing the game:
 
 3. **Install Pygame:** Open the command prompt or terminal and type the following command to install the necessary library for the game:
 
-4. **Run the Game:** Navigate to the game folder using the command prompt or terminal, then run the game script with the following command:
+```
+pip install pygame
+```
 
+5. **Run the Game:** Navigate to the game folder using the command prompt or terminal, then run the game script with the following command:
 
+```
+python Ball_G1.3
+```
+
+This will start the game, and you can begin your exciting adventure dodging obstacles !
 Now, you are all set to immerse yourself in the exciting world of **Noot-Noot**! Dodge obstacles, stay focused, and enjoy the game! 🚀🌟
