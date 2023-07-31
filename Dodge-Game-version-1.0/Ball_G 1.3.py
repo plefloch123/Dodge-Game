@@ -52,12 +52,12 @@ player_speed = 3
 # Choosing the font
 font = pygame.font.Font("freesansbold.ttf", 20)
 game_over_font = pygame.font.Font("freesansbold.ttf", 60)
-my_font = pygame.font.Font("gumball_font.ttf", 20)
-my_font_name = pygame.font.Font("gumball_font.ttf", 70)
-my_font_the_game = pygame.font.Font("gumball_font.ttf", 40)
-my_font_game_over = pygame.font.Font("gumball_font.ttf", 60)
-other_font = pygame.font.Font("pixel_font.ttf", 30)
-other_font_smaller = pygame.font.Font("pixel_font.ttf", 17)
+my_font = pygame.font.Font("graphics/font/gumball_font.ttf", 20)
+my_font_name = pygame.font.Font("graphics/font/gumball_font.ttf", 70)
+my_font_the_game = pygame.font.Font("graphics/font/gumball_font.ttf", 40)
+my_font_game_over = pygame.font.Font("graphics/font/gumball_font.ttf", 60)
+other_font = pygame.font.Font("graphics/font/pixel_font.ttf", 30)
+other_font_smaller = pygame.font.Font("graphics/font/pixel_font.ttf", 17)
 
 # Initialise score
 score = 0
@@ -96,16 +96,9 @@ my_timer = 6
 
 start_ticks = pygame.time.get_ticks()
 
-golden_boost_music = mixer.Sound("Mario Kart (Star Powerup) - Gaming Music (HD) [TubeRipper.com].mp3")
+golden_boost_music = mixer.Sound("music/Mario Kart (Star Powerup) - Gaming Music (HD) [TubeRipper.com].mp3")
 
-nootnoot_sound = mixer.Sound("NOOT NOOT SOUND EFFECT.mp3")
-
-
-# Initialise every level to False
-level_1 = False
-level_2 = False
-level_3 = False
-
+nootnoot_sound = mixer.Sound("music/NOOT NOOT SOUND EFFECT.mp3")
 
 snow_list = []
 
@@ -114,6 +107,9 @@ count = 0
 WHITE = [255, 255, 255]
 colourList = [WHITE]
 color = random.choice(colourList)
+
+# game_level_running = "0" is for the main menu
+game_level_running = "0"
 
 # Loop 100 times and add a snow flake in a random x,y position
 for i in range(100):
@@ -158,17 +154,18 @@ def golden_boost_check():
     global last_golden_boost_grabbed
     global golden_boost_x
     global golden_boost_y
-    if level_1:
+    global game_level_running
+    if game_level_running == "1":
         if score - last_golden_boost_grabbed > 49 and not golden_boost_available:
             golden_boost_available = True
             golden_boost_x = random.randint(10, 520)
             golden_boost_y = random.randint(10, 520)
-    elif level_2:
+    elif game_level_running == "2":
         if score - last_golden_boost_grabbed > 59 and not golden_boost_available:
             golden_boost_available = True
             golden_boost_x = random.randint(10, 520)
             golden_boost_y = random.randint(10, 520)
-    elif level_3:
+    elif game_level_running == "3":
         if score - last_golden_boost_grabbed > 89 and not golden_boost_available:
             golden_boost_available = True
             golden_boost_x = random.randint(10, 520)
@@ -182,17 +179,18 @@ def fire_boost_check():
     global last_fire_boost_grabbed
     global fire_boost_x
     global fire_boost_y
-    if level_1:
+    global game_level_running
+    if game_level_running == "1":
         if score - last_fire_boost_grabbed > 14 and not fire_boost_available:
             fire_boost_available = True
             fire_boost_x = random.randint(10, 520)
             fire_boost_y = random.randint(10, 520)
-    elif level_2:
+    elif game_level_running == "2":
         if score - last_fire_boost_grabbed > 19 and not fire_boost_available:
             fire_boost_available = True
             fire_boost_x = random.randint(10, 520)
             fire_boost_y = random.randint(10, 520)
-    elif level_3:
+    elif game_level_running == "3":
         if score - last_fire_boost_grabbed > 29 and not fire_boost_available:
             fire_boost_available = True
             fire_boost_x = random.randint(10, 520)
@@ -206,19 +204,21 @@ def speed_boost_check():
     global last_speed_boost_grabbed
     global speed_boost_x
     global speed_boost_y
-    if level_1:
+    global game_level_running
+
+    if game_level_running == "1":
         if score - last_speed_boost_grabbed > 9 and not speed_boost_available:
             speed_boost_available = True
             # Speed boost is 70*70, so max it can go is 530; -8 because of the wall, then it can only spawn max to 522
             speed_boost_x = random.randint(10, 520)
             speed_boost_y = random.randint(10, 520)
-    elif level_2:
+    elif game_level_running == "2":
         if score - last_speed_boost_grabbed > 14 and not speed_boost_available:
             speed_boost_available = True
             # Speed boost is 70*70, so max it can go is 530; -8 because of the wall, then it can only spawn max to 522
             speed_boost_x = random.randint(10, 520)
             speed_boost_y = random.randint(10, 520)
-    elif level_3:
+    elif game_level_running == "3":
         if score - last_speed_boost_grabbed > 19 and not speed_boost_available:
             speed_boost_available = True
             # Speed boost is 70*70, so max it can go is 530; -8 because of the wall, then it can only spawn max to 522
@@ -378,10 +378,10 @@ def main_menu():
     global snow_list
     global y
     global x
-    background = pygame.image.load("background_main_menu.png")
-    mixer.music.load("New Super Mario Bros. Wii OST - Track 05 - World 3.mp3")
+    background = pygame.image.load("graphics/background/background_main_menu.png")
+    mixer.music.load("music/New Super Mario Bros. Wii OST - Track 05 - World 3.mp3")
     mixer.music.play()
-    fat_noot_noot_img = pygame.image.load("fat pingu.png")
+    fat_noot_noot_img = pygame.image.load("graphics/player/fat pingu.png")
 
     while True:
 
@@ -406,13 +406,13 @@ def main_menu():
         surround_button_3 = pygame.Rect(410, 505, 170, 60)
         if button_1.collidepoint((mx, my)) or surround_button_1.collidepoint((mx, my)):
             if click:
-                game_level_1()
+                game_level(1)
         if button_2.collidepoint((mx, my)) or surround_button_2.collidepoint((mx, my)):
             if click:
-                game_level_2()
+                game_level(2)
         if button_3.collidepoint((mx, my)) or surround_button_3.collidepoint((mx, my)):
             if click:
-                game_level_3()
+                game_level(3)
         pygame.draw.rect(screen, grey, surround_button_1, 5, 5)
         pygame.draw.rect(screen, light_grey, button_1, 0, 5)
         pygame.draw.rect(screen, grey, surround_button_2, 5, 5)
@@ -459,264 +459,32 @@ def main_menu():
         pygame.display.update()
         timer.tick(60)
 
+def game_level(level):
 
-def game_level_1():
-    # Creating the Image for player, ball, background and boost
-    snowball_Img = pygame.image.load("rock.png")
+    global game_level_running
+    if level == 1:
+        snowball_img_path = "graphics/enemy/rock.png"
+        background_path = "graphics/background/background_level1.png"
+        game_level_running = "1"
+    elif level == 2:
+        snowball_img_path = "graphics/enemy/snowball.png"
+        background_path = "graphics/background/background_icy.png"
+        game_level_running = "2"
+    elif level == 3:
+        snowball_img_path = "graphics/enemy/fire_ball.png"
+        background_path = "graphics/background/background_level3.png"
+        game_level_running = "3"
+    else:
+        raise ValueError("Invalid game level")
 
-    player_Img = pygame.image.load("noot-noot.png")
-
-    player_Img_golden = pygame.image.load("Golden-noot-noot.png")
-
-    background = pygame.image.load("background_level1.png")
-
-    speed_boost_Img = pygame.image.load("red_fish.png")
-
-    fire_boost_Img = pygame.image.load("fire.png")
-
-    golden_boost_Img = pygame.image.load("golden_fish.png")
-
-    global player_speed
-    global fire_boost_available
-    global speed_boost_available
-    global golden_boost_activated
-    global golden_boost_available
-    global snowball_x_direction
-    global snowball_y_direction
-    global snowball_x
-    global snowball_y
-    global fire_boost_y
-    global fire_boost_x
-    global last_fire_boost_grabbed
-    global speed_boost_x
-    global speed_boost_y
-    global last_speed_boost_grabbed
-    global golden_boost_x
-    global golden_boost_y
-    global last_golden_boost_grabbed
-    global player_x
-    global player_y
-    global score
-    global high_score
-    global previous_score
-    global player_y_direction
-    global player_x_direction
-    global score
-    global counter
-    global game_Over
-    global level_1
-
-    running = True
-    level_1 = True
-
-    mixer.music.load("Freeze-Man-Stage-Iceberg-Area-M.mp3")
-    mixer.music.play()
-
-    while running:
-        # Playing the music of the game
-        update_ball_position()
-        update_player_position()
-        check_difficulty()
-        fire_boost_check()
-        speed_boost_check()
-        golden_boost_check()
-        check_not_same_starting_direction()
-        screen.fill((0, 0, 0))
-        # Setting the background
-        screen.blit(background, (0, 0))
-        # Setting the snowball on the screen
-        snowball = screen.blit(snowball_Img, (snowball_x, snowball_y))
-        # Setting the player on the screen
-        # If he didn't take the golden boost, he is just a normal pingu
-        if not golden_boost_activated:
-            gamer = screen.blit(player_Img, (player_x, player_y))
-        # Otherwise he turns golden
-        else:
-            gamer = screen.blit(player_Img_golden, (player_x, player_y))
-        # Checks the collision between snowball and player
-        if not golden_boost_activated:
-            check_collision(gamer.centerx, gamer.centery, snowball.centerx, snowball.centery)
-        # Display the score
-        draw_text("Score: " + str(score), other_font_smaller, white, screen, 265, 17)
-        # Display the high score
-        draw_text("Highest Score: " + str(high_score), other_font_smaller, white, screen, 18, 17)
-        # display previous score
-        draw_text("Previous Score: " + str(previous_score), other_font_smaller, white, screen, 400, 17)
-
-        # If the player takes the fire boost, it will take out 1 in speed in the y direction or x randomly
-        if fire_boost_available:
-            fire_boost = screen.blit(fire_boost_Img, (fire_boost_x, fire_boost_y))
-            if gamer.colliderect(fire_boost):
-                x_or_y_list = ["y_choice", "x_choice"]
-                random_choice = random.choice(x_or_y_list)
-                if random_choice == "x_choice":
-                    if snowball_x_direction > 0:
-                        snowball_x_direction -= 1
-                    else:
-                        snowball_x_direction += 1
-                else:
-                    if snowball_y_direction > 0:
-                        snowball_y_direction -= 1
-                    else:
-                        snowball_y_direction += 1
-                # hide the boost again and turn the variables to False
-                fire_boost_x = -100
-                fire_boost_y = -100
-                last_fire_boost_grabbed = score
-                fire_boost_available = False
-
-        # check if speed boost is available
-        if speed_boost_available:
-            speed_boost = screen.blit(speed_boost_Img, (speed_boost_x, speed_boost_y))
-            # When player and speed boost collides, add 1 in player speed, hide the speed boost and make it unavailable
-            if gamer.colliderect(speed_boost):
-                player_speed += 1
-                speed_boost_x = -100
-                speed_boost_y = -100
-                last_speed_boost_grabbed = score
-                speed_boost_available = False
-
-        if golden_boost_available:
-            golden_boost = screen.blit(golden_boost_Img, (golden_boost_x, golden_boost_y))
-            # When player and speed boost collides, add 1 in player speed, hide the speed boost and make it unavailable
-            if gamer.colliderect(golden_boost):
-                # Pause music to start the star music
-                pygame.mixer.music.pause()
-                golden_boost_music.play()
-                # start the countdown in the background
-                countdown_thread = threading.Thread(target=countdown)
-                countdown_thread.start()
-                golden_boost_x = -100
-                golden_boost_y = -100
-                last_golden_boost_grabbed = score
-                golden_boost_available = False
-
-        if golden_boost_activated is True:
-            display_timer = font.render("Time left: " + str(my_timer), True, black, white)
-            screen.blit(display_timer, (300, 572))
-
-        # Display the speed
-        draw_text("Speed: " + str(player_speed - 2), other_font_smaller, white, screen, 18, 572)
-
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    # stop running and stop all possible music
-                    running = False
-                    mixer.music.pause()
-                    nootnoot_sound.stop()
-                    golden_boost_music.stop()
-                    mixer.music.load("New Super Mario Bros. Wii OST - Track 05 - World 3.mp3")
-                    mixer.music.play()
-                    level_1 = False
-                    snowball_x = 300
-                    snowball_y = 300
-                    snowball_x_direction = random.choice(random_number)
-                    snowball_y_direction = random.choice(random_number)
-                    player_x = 275
-                    player_y = 500
-                    # retain the previous score
-                    previous_score = score
-                    # Check if High Score has been beaten
-                    if score > high_score:
-                        high_score = score
-                    player_speed = 3
-                    # hide the speed boost
-                    last_speed_boost_grabbed = 0
-                    speed_boost_y = -100
-                    speed_boost_x = -100
-                    speed_boost_available = False
-                    # hide fire boost
-                    last_fire_boost_grabbed = 0
-                    fire_boost_x = -100
-                    fire_boost_y = -100
-                    fire_boost_available = False
-                    # hide golden boost
-                    last_golden_boost_grabbed = 0
-                    golden_boost_x = -100
-                    golden_boost_y = -100
-                    golden_boost_available = False
-                    golden_boost_activated = False
-                    # reset game Over and speed boost
-                    game_Over = False
-                    score = 0
-                    counter = 10
-                if event.key == pygame.K_LEFT and not game_Over:
-                    player_x_direction = -1
-                if event.key == pygame.K_RIGHT and not game_Over:
-                    player_x_direction = 1
-                if event.key == pygame.K_UP and not game_Over:
-                    player_y_direction = -1
-                if event.key == pygame.K_DOWN and not game_Over:
-                    player_y_direction = 1
-            # If we release a key
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    player_x_direction = 0
-                if event.key == pygame.K_RIGHT:
-                    player_x_direction = 0
-                if event.key == pygame.K_UP:
-                    player_y_direction = 0
-                if event.key == pygame.K_DOWN:
-                    player_y_direction = 0
-                # When game Over, start the game again
-                if event.key == pygame.K_SPACE and game_Over:
-                    nootnoot_sound.stop()
-                    mixer.music.unpause()
-                    snowball_x = 300
-                    snowball_y = 300
-                    snowball_x_direction = random.choice(random_number)
-                    snowball_y_direction = random.choice(random_number)
-                    player_x = 275
-                    player_y = 500
-                    # retain the previous score
-                    previous_score = score
-                    # Check if High Score has been beaten
-                    if score > high_score:
-                        high_score = score
-                    player_speed = 3
-                    # hide the speed boost
-                    last_speed_boost_grabbed = 0
-                    speed_boost_y = -100
-                    speed_boost_x = -100
-                    speed_boost_available = False
-                    # hide fire boost
-                    last_fire_boost_grabbed = 0
-                    fire_boost_x = -100
-                    fire_boost_y = -100
-                    fire_boost_available = False
-                    # hide golden boost
-                    last_golden_boost_grabbed = 0
-                    golden_boost_x = -100
-                    golden_boost_y = -100
-                    golden_boost_available = False
-                    golden_boost_activated = False
-                    # reset game Over and speed boost
-                    game_Over = False
-                    score = 0
-                    counter = 10
-        pygame.display.update()
-        timer.tick(60)
-
-
-def game_level_2():
-    # Creating the Image for player, ball, background and boost
-    snowball_Img = pygame.image.load("snowball.png")
-
-    player_Img = pygame.image.load("noot-noot.png")
-
-    player_Img_golden = pygame.image.load("Golden-noot-noot.png")
-
-    background = pygame.image.load("background_icy.png")
-
-    speed_boost_Img = pygame.image.load("red_fish.png")
-
-    fire_boost_Img = pygame.image.load("fire.png")
-
-    golden_boost_Img = pygame.image.load("golden_fish.png")
+    # Creating the Image for player, ball, background, and boost
+    snowball_Img = pygame.image.load(snowball_img_path)
+    player_Img = pygame.image.load("graphics/player/noot-noot.png")
+    player_Img_golden = pygame.image.load("graphics/player/Golden-noot-noot.png")
+    background = pygame.image.load(background_path)
+    speed_boost_Img = pygame.image.load("graphics/boost/red_fish.png")
+    fire_boost_Img = pygame.image.load("graphics/boost/fire.png")
+    golden_boost_Img = pygame.image.load("graphics/boost/golden_fish.png")
 
     global player_speed
     global fire_boost_available
@@ -746,12 +514,9 @@ def game_level_2():
     global score
     global counter
     global game_Over
-    global level_2
 
     running = True
-    level_2 = True
-
-    mixer.music.load("Freeze-Man-Stage-Iceberg-Area-M.mp3")
+    mixer.music.load("music/Freeze-Man-Stage-Iceberg-Area-M.mp3")
     mixer.music.play()
 
     while running:
@@ -773,7 +538,7 @@ def game_level_2():
         # If he didn't take the golden boost, he is just a normal pingu
         if golden_boost_activated is False:
             gamer = screen.blit(player_Img, (player_x, player_y))
-        # Otherwise he turns golden
+        # Otherwise, he turns golden
         else:
             gamer = screen.blit(player_Img_golden, (player_x, player_y))
         # Checks the collision between snowball and player
@@ -783,7 +548,7 @@ def game_level_2():
         draw_text("Score: " + str(score), other_font_smaller, black, screen, 265, 17)
         # Display the high score
         draw_text("Highest Score: " + str(high_score), other_font_smaller, black, screen, 18, 17)
-        # display previous score
+        # Display previous score
         draw_text("Previous Score: " + str(previous_score), other_font_smaller, black, screen, 400, 17)
 
         # If the player takes the fire boost, it will take out 1 in speed in the y direction or x randomly
@@ -802,16 +567,16 @@ def game_level_2():
                         snowball_y_direction -= 1
                     else:
                         snowball_y_direction += 1
-                # hide the boost again and turn the variables to False
+                # Hide the boost again and turn the variables to False
                 fire_boost_x = -100
                 fire_boost_y = -100
                 last_fire_boost_grabbed = score
                 fire_boost_available = False
 
-        # check if speed boost is available
+        # Check if speed boost is available
         if speed_boost_available:
             speed_boost = screen.blit(speed_boost_Img, (speed_boost_x, speed_boost_y))
-            # When player and speed boost collides, add 1 in player speed, hide the speed boost and make it unavailable
+            # When player and speed boost collide, add 1 in player speed, hide the speed boost and make it unavailable
             if gamer.colliderect(speed_boost):
                 player_speed += 1
                 speed_boost_x = -100
@@ -821,12 +586,12 @@ def game_level_2():
 
         if golden_boost_available:
             golden_boost = screen.blit(golden_boost_Img, (golden_boost_x, golden_boost_y))
-            # When player and speed boost collides, add 1 in player speed, hide the speed boost and make it unavailable
+            # When player and speed boost collide, add 1 in player speed, hide the speed boost and make it unavailable
             if gamer.colliderect(golden_boost):
                 # Pause music to start the star music
                 pygame.mixer.music.pause()
                 golden_boost_music.play()
-                # start the countdown in the background
+                # Start the countdown in the background
                 countdown_thread = threading.Thread(target=countdown)
                 countdown_thread.start()
                 golden_boost_x = -100
@@ -847,263 +612,21 @@ def game_level_2():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    # stop running and stop all possible music
+                    # Stop running and stop all possible music
                     running = False
                     mixer.music.pause()
                     nootnoot_sound.stop()
                     golden_boost_music.stop()
-                    mixer.music.load("New Super Mario Bros. Wii OST - Track 05 - World 3.mp3")
+                    mixer.music.load("music/New Super Mario Bros. Wii OST - Track 05 - World 3.mp3")
                     mixer.music.play()
-                    level_2 = False
+                    game_level_running = "0"
                     snowball_x = 300
                     snowball_y = 300
                     snowball_x_direction = random.choice(random_number)
                     snowball_y_direction = random.choice(random_number)
                     player_x = 275
                     player_y = 500
-                    # retain the previous score
-                    previous_score = score
-                    # Check if High Score has been beaten
-                    if score > high_score:
-                        high_score = score
-                    player_speed = 3
-                    # hide the speed boost
-                    last_speed_boost_grabbed = 0
-                    speed_boost_y = -100
-                    speed_boost_x = -100
-                    speed_boost_available = False
-                    # hide fire boost
-                    last_fire_boost_grabbed = 0
-                    fire_boost_x = -100
-                    fire_boost_y = -100
-                    fire_boost_available = False
-                    # hide golden boost
-                    last_golden_boost_grabbed = 0
-                    golden_boost_x = -100
-                    golden_boost_y = -100
-                    golden_boost_available = False
-                    golden_boost_activated = False
-                    # reset game Over and speed boost
-                    game_Over = False
-                    score = 0
-                    counter = 10
-                if event.key == pygame.K_LEFT and not game_Over:
-                    player_x_direction = -1
-                if event.key == pygame.K_RIGHT and not game_Over:
-                    player_x_direction = 1
-                if event.key == pygame.K_UP and not game_Over:
-                    player_y_direction = -1
-                if event.key == pygame.K_DOWN and not game_Over:
-                    player_y_direction = 1
-            # If we release a key
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    player_x_direction = 0
-                if event.key == pygame.K_RIGHT:
-                    player_x_direction = 0
-                if event.key == pygame.K_UP:
-                    player_y_direction = 0
-                if event.key == pygame.K_DOWN:
-                    player_y_direction = 0
-                # When game Over, start the game again
-                if event.key == pygame.K_SPACE and game_Over:
-                    nootnoot_sound.stop()
-                    mixer.music.unpause()
-                    snowball_x = 300
-                    snowball_y = 300
-                    snowball_x_direction = random.choice(random_number)
-                    snowball_y_direction = random.choice(random_number)
-                    player_x = 275
-                    player_y = 500
-                    # retain the previous score
-                    previous_score = score
-                    # Check if High Score has been beaten
-                    if score > high_score:
-                        high_score = score
-                    player_speed = 3
-                    # hide the speed boost
-                    last_speed_boost_grabbed = 0
-                    speed_boost_y = -100
-                    speed_boost_x = -100
-                    speed_boost_available = False
-                    # hide fire boost
-                    last_fire_boost_grabbed = 0
-                    fire_boost_x = -100
-                    fire_boost_y = -100
-                    fire_boost_available = False
-                    # hide golden boost
-                    last_golden_boost_grabbed = 0
-                    golden_boost_x = -100
-                    golden_boost_y = -100
-                    golden_boost_available = False
-                    golden_boost_activated = False
-                    # reset game Over and speed boost
-                    game_Over = False
-                    score = 0
-                    counter = 10
-        pygame.display.update()
-        timer.tick(60)
-
-
-def game_level_3():
-    # Creating the Image for player, ball, background and boost
-    snowball_Img = pygame.image.load("fire_ball.png")
-
-    player_Img = pygame.image.load("noot-noot.png")
-
-    player_Img_golden = pygame.image.load("Golden-noot-noot.png")
-
-    background = pygame.image.load("background_level3.png")
-
-    speed_boost_Img = pygame.image.load("red_fish.png")
-
-    fire_boost_Img = pygame.image.load("fire.png")
-
-    golden_boost_Img = pygame.image.load("golden_fish.png")
-
-    global player_speed
-    global fire_boost_available
-    global speed_boost_available
-    global golden_boost_activated
-    global golden_boost_available
-    global snowball_x_direction
-    global snowball_y_direction
-    global snowball_x
-    global snowball_y
-    global fire_boost_y
-    global fire_boost_x
-    global last_fire_boost_grabbed
-    global speed_boost_x
-    global speed_boost_y
-    global last_speed_boost_grabbed
-    global golden_boost_x
-    global golden_boost_y
-    global last_golden_boost_grabbed
-    global player_x
-    global player_y
-    global score
-    global high_score
-    global previous_score
-    global player_y_direction
-    global player_x_direction
-    global score
-    global counter
-    global game_Over
-    global level_3
-
-    running = True
-    level_3 = True
-
-    mixer.music.load("Freeze-Man-Stage-Iceberg-Area-M.mp3")
-    mixer.music.play()
-
-    while running:
-        # Playing the music of the game
-        update_ball_position()
-        update_player_position()
-        check_difficulty()
-        fire_boost_check()
-        speed_boost_check()
-        golden_boost_check()
-        check_not_same_starting_direction()
-        screen.fill((0, 0, 0))
-        # Setting the background
-        screen.blit(background, (0, 0))
-        # Setting the snowball on the screen
-        snowball = screen.blit(snowball_Img, (snowball_x, snowball_y))
-        # Setting the player on the screen
-        # If he didn't take the golden boost, he is just a normal pingu
-        if golden_boost_activated is False:
-            gamer = screen.blit(player_Img, (player_x, player_y))
-        # Otherwise he turns golden
-        else:
-            gamer = screen.blit(player_Img_golden, (player_x, player_y))
-        # Checks the collision between snowball and player
-        if not golden_boost_activated:
-            check_collision(gamer.centerx, gamer.centery, snowball.centerx, snowball.centery)
-        # Display the score
-        draw_text("Score: " + str(score), other_font_smaller, white, screen, 265, 17)
-        # Display the high score
-        draw_text("Highest Score: " + str(high_score), other_font_smaller, white, screen, 18, 17)
-        # display previous score
-        draw_text("Previous Score: " + str(previous_score), other_font_smaller, white, screen, 400, 17)
-
-        # If the player takes the fire boost, it will take out 1 in speed in the y direction or x randomly
-        if fire_boost_available:
-            fire_boost = screen.blit(fire_boost_Img, (fire_boost_x, fire_boost_y))
-            if gamer.colliderect(fire_boost):
-                x_or_y_list = ["y_choice", "x_choice"]
-                random_choice = random.choice(x_or_y_list)
-                if random_choice == "x_choice":
-                    if snowball_x_direction > 0:
-                        snowball_x_direction -= 1
-                    else:
-                        snowball_x_direction += 1
-                else:
-                    if snowball_y_direction > 0:
-                        snowball_y_direction -= 1
-                    else:
-                        snowball_y_direction += 1
-                # hide the boost again and turn the variables to False
-                fire_boost_x = -100
-                fire_boost_y = -100
-                last_fire_boost_grabbed = score
-                fire_boost_available = False
-
-        # check if speed boost is available
-        if speed_boost_available:
-            speed_boost = screen.blit(speed_boost_Img, (speed_boost_x, speed_boost_y))
-            # When player and speed boost collides, add 1 in player speed, hide the speed boost and make it unavailable
-            if gamer.colliderect(speed_boost):
-                player_speed += 1
-                speed_boost_x = -100
-                speed_boost_y = -100
-                last_speed_boost_grabbed = score
-                speed_boost_available = False
-
-        if golden_boost_available:
-            golden_boost = screen.blit(golden_boost_Img, (golden_boost_x, golden_boost_y))
-            # When player and speed boost collides, add 1 in player speed, hide the speed boost and make it unavailable
-            if gamer.colliderect(golden_boost):
-                # Pause music to start the star music
-                pygame.mixer.music.pause()
-                golden_boost_music.play()
-                # start the countdown in the background
-                countdown_thread = threading.Thread(target=countdown)
-                countdown_thread.start()
-                golden_boost_x = -100
-                golden_boost_y = -100
-                last_golden_boost_grabbed = score
-                golden_boost_available = False
-
-        if golden_boost_activated is True:
-            display_timer = font.render("Time left: " + str(my_timer), True, black, white)
-            screen.blit(display_timer, (300, 572))
-
-        # Display the speed
-        draw_text("Speed: " + str(player_speed - 2), other_font_smaller, white, screen, 18, 572)
-
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    # stop running and stop all possible music
-                    running = False
-                    mixer.music.pause()
-                    nootnoot_sound.stop()
-                    golden_boost_music.stop()
-                    mixer.music.load("New Super Mario Bros. Wii OST - Track 05 - World 3.mp3")
-                    mixer.music.play()
-                    level_3 = False
-                    snowball_x = 300
-                    snowball_y = 300
-                    snowball_x_direction = random.choice(random_number)
-                    snowball_y_direction = random.choice(random_number)
-                    player_x = 275
-                    player_y = 500
-                    # retain the previous score
+                    # Retain the previous score
                     previous_score = score
                     # Check if High Score has been beaten
                     if score > high_score:
@@ -1188,3 +711,4 @@ def game_level_3():
 
 
 main_menu()
+
