@@ -1,6 +1,6 @@
 # Dodge-Game 🏃‍♂️
 
-**Noot-Noot** is an exciting Python game where you take control of a character and dodge obstacles to reach the finish line.
+**Noot-Noot** is an exciting Python game where you take control of a character and dodge obstacles to get the highest score.
 
 ## How to Play 🎮
 
